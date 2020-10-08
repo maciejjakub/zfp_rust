@@ -13,4 +13,22 @@ fn main() {
     println!("Array after forward lifting transform: {:?}", v);
     zfp_rust::decode::decode_cube3(&mut v, 0);
     println!("Array after inverse lifting transform: {:?}", v);
+    let a: i16 = -45;
+    let b: u32 = 0b1111111111001110;
+    println!("Wynik: {:#b}", a);
+    println!("Wynik: {:?}", b);
+
+    let x: i64 = 121;
+    let y: i16 = 45;
+    // zfp_rust::encode::type_of(y);
+    // println!("{}", lel);
+    // println!("{}", zfp_rust::encode::type_of(x));
+
+    // let a = zfp_rust::encode::rust_ty_kurwo(x);   
+    zfp_rust::encode::rust_ty_kurwo(x);   
+    // println!("{:?}", a);
+
+    // let b = zfp_rust::encode::int32_to_uint32(x);
+    // println!("{:#b}", b);
+
 }
