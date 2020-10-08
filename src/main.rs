@@ -21,11 +21,11 @@ fn main() {
     let x: i64 = 121;
     let y: i16 = 45;
     // zfp_rust::encode::type_of(y);
-    // println!("{}", lel);
+    // println!("{}", ddd);
     // println!("{}", zfp_rust::encode::type_of(x));
 
-    // let a = zfp_rust::encode::rust_ty_kurwo(x);   
-    zfp_rust::encode::rust_ty_kurwo(x);   
+    // let a = zfp_rust::encode::rust_test(x);   
+    zfp_rust::encode::rust_test(x);   
     // println!("{:?}", a);
 
     // let b = zfp_rust::encode::int32_to_uint32(x);
