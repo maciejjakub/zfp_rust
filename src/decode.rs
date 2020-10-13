@@ -1,5 +1,173 @@
 use num_traits::PrimInt;
 
+use std::ops::{Add, Shr, Shl, Sub};
+pub trait LiftUint:
+    Copy + Add<Self, Output = Self> + Sub<Self, Output = Self> + Shr<Self, Output = Self> + Shl<Self, Output = Self> + From<u8>
+{
+}
+impl<
+        T: Copy
+            + Add<Self, Output = Self>
+            + Sub<Self, Output = Self>
+            + Shr<Self, Output = Self>
+            + Shl<Self, Output = Self>
+            + From<u8>,
+    > LiftUint for T
+{
+}
+
+pub trait NegbinConvert<T> {
+    fn negbin_convert(x: Self) -> T;
+}
+impl NegbinConvert<i64> for u64 {
+    fn negbin_convert(x: u64) -> i64 {
+        let mask = 0xaaaa_aaaa_aaaa_aaaa;
+        ((x ^ mask) - mask) as i64
+    }
+}
+impl NegbinConvert<i32> for u32 {
+    fn negbin_convert(x: u32) -> i32 {
+        let mask = 0xaaaa_aaaa;
+        ((x ^ mask) - mask) as i32
+    }
+}
+impl NegbinConvert<i16> for u16 {
+    fn negbin_convert(x: u16) -> i16 {
+        let mask = 0xaaaa;
+        ((x ^ mask) - mask) as i16
+    }
+}
+impl NegbinConvert<i8> for u8 {
+    fn negbin_convert(x: u8) -> i8 {
+        let mask = 0xaa;
+        ((x ^ mask) - mask) as i8
+    }
+}
+
+fn inv_lift_alt2<I>(x: I, y: I, z: I, w: I) -> [I; 4]
+where
+    I: LiftUint,
+{
+    let one = I::from(1);
+    let mut y = y + (w >> one);
+    let mut w = w - (y >> one);
+
+    y = y + w;
+    w = w << one;
+    w = w - y;
+
+    let mut z = z + x;
+    let mut x = x << one;
+    x = x - z;
+
+    y = y + z;
+    z = z << one;
+    z = z - y;
+
+    w = w + x;
+    x = x << one;
+    x = x - w;
+
+    [x, y, z, w]
+}
+
+pub fn decode_cube1_alt3<I: LiftUint>(v: &mut [I; 4]) -> () {
+    inv_lift_alt2(v[0], v[1], v[2], v[3])
+        .iter()
+        .enumerate()
+        .for_each(|(e, val)| v[e] = *val);
+}
+
+pub fn decode_cube2_alt3<I: LiftUint>(v: &mut [I; 16]) -> () {
+    //D is decides how far into todo we go
+    let todo = [
+        (0, 4),
+        (1, 4),
+        (2, 4),
+        (3, 4),
+        (0, 1),
+        (4, 1),
+        (8, 1),
+        (12, 1),
+    ];
+    for (offset, hop) in todo.iter() {
+        inv_lift_alt2(
+            v[offset + 0],
+            v[offset + hop],
+            v[offset + hop * 2],
+            v[offset + hop * 3],
+        )
+        .iter()
+        .enumerate()
+        .for_each(|(e, val)| v[offset + hop * e] = *val);
+    }
+}
+
+pub fn decode_cube3_alt3<I: LiftUint>(v: &mut [I; 64]) -> () {
+    //D is decides how far into todo we go
+    let todo = [
+        (0, 16),
+        (1, 16),
+        (2, 16),
+        (3, 16),
+        (4, 16),
+        (5, 16),
+        (6, 16),
+        (7, 16),
+        (8, 16),
+        (9, 16),
+        (10, 16),
+        (11, 16),
+        (12, 16),
+        (13, 16),
+        (14, 16),
+        (15, 16),
+        (0, 4),
+        (16, 4),
+        (32, 4),
+        (48, 4),
+        (1, 4),
+        (17, 4),
+        (33, 4),
+        (49, 4),
+        (2, 4),
+        (18, 4),
+        (34, 4),
+        (50, 4),
+        (3, 4),
+        (19, 4),
+        (35, 4),
+        (51, 4),
+        (0, 1),
+        (4, 1),
+        (8, 1),
+        (12, 1),
+        (16, 1),
+        (20, 1),
+        (24, 1),
+        (28, 1),
+        (32, 1),
+        (36, 1),
+        (40, 1),
+        (44, 1),
+        (48, 1),
+        (52, 1),
+        (56, 1),
+        (60, 1),
+    ];
+    for (offset, hop) in todo.iter() {
+        inv_lift_alt2(
+            v[offset + 0],
+            v[offset + hop],
+            v[offset + hop * 2],
+            v[offset + hop * 3],
+        )
+        .iter()
+        .enumerate()
+        .for_each(|(e, val)| v[offset + hop * e] = *val);
+    }
+}
+
 pub fn inv_lift<I:PrimInt>(v: &mut [I], mut p: usize, s: usize) -> () {
     let (mut x, mut y, mut z, mut w): (I, I, I, I);
     x = v[p]; p += s;
