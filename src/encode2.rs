@@ -285,53 +285,6 @@ pub fn encode_cube3<I: PrimInt>(v: &mut [I], p: usize) -> () {
     }
 }
 
-/*
-pub fn type_of<T>(_: T) -> () {
-    let int_type = type_name::<T>();
-    println!("{:?}", int_type);
-    // let x = <T>();
-    // let nbmask = match int_type {
-    //     "i8" => 0xaau64,
-    //     "i16" => 0xaaaau64,
-    //     "i32" => 0xaaaaaaaau64,
-    //     "i64" => 0xaaaaaaaaaaaaaaaau64,
-    //     _ => 0xaau64,
-    // };
-    // if int_type == "i32"{
-    //     0xaaaaaaaai32
-    // } else {
-    //     0xaaaaaaaaaaaaaaaai64
-    // }
-
-    // println!("{:#b}", nbmask);
-}
-
-pub fn rust_test<I: PrimInt + std::fmt::Debug>(x: I) -> () {
-    let int_type = type_name::<I>();
-    println!("{:?}", int_type);
-    if int_type == "i32" {
-        println!("i32 {:?}", x);
-    // let x = x as i32;
-    // int32_to_uint32(x);
-    } else {
-        // println!("dddddd");
-        // let x = x as i64;
-        int64_to_uint64(x);
-    }
-}
-
-pub fn int32_to_uint32(x: i32) -> u32 {
-    let y = x as u32;
-    let nbmask: u32 = 0xaaaaaaaa;
-    (y + nbmask) ^ nbmask
-}
-
-pub fn int64_to_uint64<I: PrimInt + std::fmt::Debug>(x: I) -> u64 {
-    let y = x as u64;
-    let nbmask: u64 = 0xaaaaaaaaaaaaaaaa;
-    (y + nbmask) ^ nbmask
-}*/
-
 #[cfg(test)]
 mod tests {
     #[test]
@@ -344,31 +297,31 @@ mod tests {
     #[test]
     fn i8_test() {
         let mut v: [i8; 4] = [1, 2, 3, 4];
-        super::encode_cube1(&mut v, 0);
+        super::encode_cube1_alt3(&mut v);
         assert_eq!(v, [2, -1, 0, 0]);
     }
     #[test]
     fn i16_test() {
         let mut v: [i16; 4] = [1, 2, 3, 4];
-        super::encode_cube1(&mut v, 0);
+        super::encode_cube1_alt3(&mut v);
         assert_eq!(v, [2, -1, 0, 0]);
     }
     #[test]
     fn i32_test() {
         let mut v: [i32; 4] = [1, 2, 3, 4];
-        super::encode_cube1(&mut v, 0);
+        super::encode_cube1_alt3(&mut v);
         assert_eq!(v, [2, -1, 0, 0]);
     }
     #[test]
     fn i64_test() {
         let mut v: [i64; 4] = [1, 2, 3, 4];
-        super::encode_cube1(&mut v, 0);
+        super::encode_cube1_alt3(&mut v);
         assert_eq!(v, [2, -1, 0, 0]);
     }
     #[test]
     fn i128_test() {
         let mut v: [i128; 4] = [1, 2, 3, 4];
-        super::encode_cube1(&mut v, 0);
+        super::encode_cube1_alt3(&mut v);
         assert_eq!(v, [2, -1, 0, 0]);
     }
     #[test]
@@ -376,7 +329,7 @@ mod tests {
         let mut v: [i32; 16] = [
             67, 56, 43, 21, 67, 56, 43, 21, 67, 56, 43, 21, 67, 56, 43, 21,
         ];
-        super::encode_cube2(&mut v, 0);
+        super::encode_cube2_alt3(&mut v);
         assert_eq!(v, [46, 16, 3, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     }
     #[test]
@@ -387,7 +340,7 @@ mod tests {
             99, 100, 111, 122, 133, 144, 155, 0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 100, 111, 122,
             133, 144, 155,
         ];
-        super::encode_cube3(&mut v, 0);
+        super::encode_cube3_alt3(&mut v);
         assert_eq!(
             v,
             vec![
