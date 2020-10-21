@@ -1,8 +1,8 @@
 use num_traits::PrimInt;
 
 use std::ops::{Add, Shr, Shl, Sub};
-pub trait LiftUint:
-    Copy + Add<Self, Output = Self> + Sub<Self, Output = Self> + Shr<Self, Output = Self> + Shl<Self, Output = Self> + From<u8>
+pub trait LiftInt:
+    Copy + Add<Self, Output = Self> + Sub<Self, Output = Self> + Shr<Self, Output = Self> + Shl<Self, Output = Self> + From<i8>
 {
 }
 impl<
@@ -11,8 +11,8 @@ impl<
             + Sub<Self, Output = Self>
             + Shr<Self, Output = Self>
             + Shl<Self, Output = Self>
-            + From<u8>,
-    > LiftUint for T
+            + From<i8>,
+    > LiftInt for T
 {
 }
 
@@ -46,7 +46,7 @@ impl NegbinConvert<i8> for u8 {
 
 fn inv_lift_alt2<I>(x: I, y: I, z: I, w: I) -> [I; 4]
 where
-    I: LiftUint,
+    I: LiftInt,
 {
     let one = I::from(1);
     let mut y = y + (w >> one);
@@ -71,14 +71,14 @@ where
     [x, y, z, w]
 }
 
-pub fn decode_cube1_alt3<I: LiftUint>(v: &mut [I; 4]) -> () {
+pub fn decode_cube1_alt3<I: LiftInt>(v: &mut [I; 4]) -> () {
     inv_lift_alt2(v[0], v[1], v[2], v[3])
         .iter()
         .enumerate()
         .for_each(|(e, val)| v[e] = *val);
 }
 
-pub fn decode_cube2_alt3<I: LiftUint>(v: &mut [I; 16]) -> () {
+pub fn decode_cube2_alt3<I: LiftInt>(v: &mut [I; 16]) -> () {
     //D is decides how far into todo we go
     let todo = [
         (0, 4),
@@ -103,7 +103,7 @@ pub fn decode_cube2_alt3<I: LiftUint>(v: &mut [I; 16]) -> () {
     }
 }
 
-pub fn decode_cube3_alt3<I: LiftUint>(v: &mut [I; 64]) -> () {
+pub fn decode_cube3_alt3<I: LiftInt>(v: &mut [I; 64]) -> () {
     //D is decides how far into todo we go
     let todo = [
         (0, 16),

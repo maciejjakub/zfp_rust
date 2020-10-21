@@ -1,8 +1,8 @@
 use num_traits::PrimInt;
 
 use std::ops::{Add, Shr, Sub};
-pub trait LiftUint:
-    Copy + Add<Self, Output = Self> + Sub<Self, Output = Self> + Shr<Self, Output = Self> + From<u8>
+pub trait LiftInt:
+    Copy + Add<Self, Output = Self> + Sub<Self, Output = Self> + Shr<Self, Output = Self> + From<i8>
 {
 }
 impl<
@@ -10,8 +10,8 @@ impl<
             + Add<Self, Output = Self>
             + Sub<Self, Output = Self>
             + Shr<Self, Output = Self>
-            + From<u8>,
-    > LiftUint for T
+            + From<i8>,
+    > LiftInt for T
 {
 }
 
@@ -45,7 +45,7 @@ impl NegbinConvert<u8> for i8 {
 
 fn fwd_lift_alt<I>(x: I, y: I, z: I, w: I) -> (I, I, I, I)
 where
-    I: LiftUint,
+    I: LiftInt,
 {
     let one = I::from(1);
     let mut x = x + w;
@@ -70,7 +70,7 @@ where
     (x, y, z, w)
 }
 
-pub fn encode_cube1_alt<I: LiftUint>(v: &mut [I; 4]) -> () {
+pub fn encode_cube1_alt<I: LiftInt>(v: &mut [I; 4]) -> () {
     let ans = fwd_lift_alt(v[0], v[1], v[2], v[3]);
     v[0] = ans.0;
     v[1] = ans.1;
@@ -80,7 +80,7 @@ pub fn encode_cube1_alt<I: LiftUint>(v: &mut [I; 4]) -> () {
 
 fn fwd_lift_alt2<I>(x: I, y: I, z: I, w: I) -> [I; 4]
 where
-    I: LiftUint,
+    I: LiftInt,
 {
     let one = I::from(1);
     let mut x = x + w;
@@ -105,18 +105,18 @@ where
     [x, y, z, w]
 }
 
-pub fn encode_cube1_alt2<I: LiftUint>(v: &mut [I; 4]) -> () {
+pub fn encode_cube1_alt2<I: LiftInt>(v: &mut [I; 4]) -> () {
     *v = fwd_lift_alt2(v[0], v[1], v[2], v[3]);
 }
 
-pub fn encode_cube1_alt3<I: LiftUint>(v: &mut [I; 4]) -> () {
+pub fn encode_cube1_alt3<I: LiftInt>(v: &mut [I; 4]) -> () {
     fwd_lift_alt2(v[0], v[1], v[2], v[3])
         .iter()
         .enumerate()
         .for_each(|(e, val)| v[e] = *val);
 }
 
-pub fn encode_cube2_alt3<I: LiftUint>(v: &mut [I; 16]) -> () {
+pub fn encode_cube2_alt3<I: LiftInt>(v: &mut [I; 16]) -> () {
     //D is decides how far into todo we go
     let todo = [
         (0, 1),
@@ -141,7 +141,7 @@ pub fn encode_cube2_alt3<I: LiftUint>(v: &mut [I; 16]) -> () {
     }
 }
 
-pub fn encode_cube3_alt3<I: LiftUint>(v: &mut [I; 64]) -> () {
+pub fn encode_cube3_alt3<I: LiftInt>(v: &mut [I; 64]) -> () {
     //D is decides how far into todo we go
     let todo = [
         (0, 1),
@@ -288,7 +288,7 @@ pub fn encode_cube3<I: PrimInt>(v: &mut [I], p: usize) -> () {
 #[cfg(test)]
 mod tests {
     #[test]
-    fn u32_test_alt() {
+    fn i32_test_alt() {
         let mut v: [i32; 4] = [1, 2, 3, 4];
         super::encode_cube1_alt(&mut v);
         assert_eq!(v, [2, -1, 0, 0]);
