@@ -334,20 +334,47 @@ mod tests {
     }
     #[test]
     fn test_3d() {
-        let mut v = vec![
-            0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 100, 111, 122, 133, 144, 155, 0, 11, 22, 33, 44,
-            55, 66, 77, 88, 99, 100, 111, 122, 133, 144, 155, 0, 11, 22, 33, 44, 55, 66, 77, 88,
-            99, 100, 111, 122, 133, 144, 155, 0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 100, 111, 122,
-            133, 144, 155,
+        // Direct, should work in principle, only comparison in assert was causing problems
+        //let mut v: [i32; 64] = [
+        //    0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 100, 111, 122, 133, 144, 155, 0, 11, 22, 33, 44,
+        //    55, 66, 77, 88, 99, 100, 111, 122, 133, 144, 155, 0, 11, 22, 33, 44, 55, 66, 77, 88,
+        //    99, 100, 111, 122, 133, 144, 155, 0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 100, 111, 122,
+        //    133, 144, 155,
+        //];
+
+        //How will we do it in production; a vector with some additional 1337 padding on the right,
+        // to simulate that we are only interested in a part of it
+        let v_src: Vec<i32> = vec![
+            0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 100, 111, 122, 133, 144, 155, 
+            0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 100, 111, 122, 133, 144, 155, 
+            0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 100, 111, 122, 133, 144, 155, 
+            0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 100, 111, 122, 133, 144, 155, 
+            1337, 1337, 1337, 1337,
         ];
+        //Fresh memory, zero-initialised; we don't want to zfp on the original version of the data,
+        //because zfp will destroy it. In real code, this will be initialised once for many chunks,
+        //so the cost will average out. Also, LLVM will probably figure out we overwrite these
+        //zeroes right away, and remove the initialisation code.
+        let mut v: [i32; 64] = [0; 64];
+        //We do rewrite v with contents of an (arbitrary in general) slice of v_src
+        v.copy_from_slice(&v_src[0..64]);
+
         super::encode_cube3_alt3(&mut v);
+        //Here we convert array to vec for a sole act of comparisons with a derived code
         assert_eq!(
-            v,
+            v.iter().map(|&x| x).collect::<Vec<i32>>(),
             vec![
                 78, -10, 0, 0, -40, 0, 0, 1, 1, 1, 0, 1, 1, -2, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
             ]
         );
+        //Another way would be to implement array comparison, i.e.
+        let v_should_be: [i32; 64] = [
+            78, -10, 0, 0, -40, 0, 0, 1, 1, 1, 0, 1, 1, -2, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+        ];
+        assert!(v_should_be.iter().zip(v.iter()).all(|(a, b)| a == b));
     }
 }

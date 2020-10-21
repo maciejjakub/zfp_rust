@@ -1,6 +1,4 @@
 use num_traits::PrimInt;
-use std::any::type_name;
-use std::convert::From;
 
 pub fn fwd_lift<I:PrimInt>(v: &mut [I], mut p: usize, s: usize) -> () {
     let (mut x, mut y, mut z, mut w): (I, I, I, I);
@@ -75,52 +73,6 @@ pub fn encode_cube3<I:PrimInt>(v: &mut [I], p: usize) -> () {
         }
     }
 }
-
-// pub fn type_of<T>(_: T) -> () {
-//     let int_type = type_name::<T>();
-//     println!("{:?}", int_type);
-    // let x = <T>();
-    // let nbmask = match int_type { 
-    //     "i8" => 0xaau64,
-    //     "i16" => 0xaaaau64,
-    //     "i32" => 0xaaaaaaaau64,
-    //     "i64" => 0xaaaaaaaaaaaaaaaau64,
-    //     _ => 0xaau64,
-    // };
-    // if int_type == "i32"{
-    //     0xaaaaaaaai32
-    // } else {
-    //     0xaaaaaaaaaaaaaaaai64
-    // }
-    
-    // println!("{:#b}", nbmask);
-// }
-
-// pub fn rust_test<I:PrimInt + std::fmt::Debug>(x: I) -> () {
-//     let int_type = type_name::<I>();
-//     println!("{:?}", int_type);
-//     if int_type == "i32"{
-//         println!("i32 {:?}", x);
-//         // let x = x as i32;
-//         // int32_to_uint32(x);
-//     } else {
-//         // println!("dddddd");
-//         // let x = x as i64;
-//         int64_to_uint64(x);
-//     }
-// }
-
-// pub fn int32_to_uint32(x: i32) -> u32 {
-//     // let y = x as u32;
-//     let nbmask: u32 = 0xaaaaaaaa;
-//     (y + nbmask) ^ nbmask
-// }
-
-// pub fn int64_to_uint64<I:PrimInt + std::fmt::Debug>(x: I) -> u64 {
-//     // let y = x as u64;
-//     let nbmask: u64 = 0xaaaaaaaaaaaaaaaa;
-//     (y + nbmask) ^ nbmask
-// }
 
 #[cfg(test)]
 mod tests {
