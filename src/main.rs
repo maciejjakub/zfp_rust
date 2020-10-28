@@ -39,4 +39,12 @@ fn main() {
     println!("{:?}", a);
     let b = zfp_rust::decode::NegbinConvert::negbin_convert(a);
     println!("{:?}", b);
+    println!("{:?}", "------------------------");
+
+
+    let mut v: [i32; 4] = [67, 56, 43, 21];
+    let output = zfp_rust::codec1::fwd_order1(v);
+    println!("{:?}", output);
+    // let arrr = [3, 3, 3, 3];
+    // zfp_rust::codec1::cache_align(arrr);
 }
