@@ -43,7 +43,7 @@ fn main() {
 
 
     let mut v: [i32; 16] = [0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 100, 111, 122, 133, 144, 155];
-    let output = zfp_rust::encode_reorder::fwd_order2(v);
+    let output = zfp_rust::fwd_order::fwd_order2(v);
     println!("{:?}", output);
     let output = zfp_rust::inv_order::inv_order2(output);
     println!("{:?}", output);
