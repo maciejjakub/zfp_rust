@@ -16,7 +16,6 @@ pub fn inv_order1<I: OrderInt>(input_list: [I; 4]) -> [I; 4] {
 	let perm_table = [0, 1, 2, 3];
 	let mut output_list: [I; 4] = [I::from(0); 4];
 	for i in 0..4 {
-		println!("{:?}", input_list[perm_table[i]]);
 		output_list[perm_table[i]] = input_list[i];
 	}
 	output_list
