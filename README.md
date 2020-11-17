@@ -13,6 +13,6 @@ to be continued
 
 <!-- Badges -->
 [license_file]: https://github.com/maciejjakub/zfp_rust/blob/master/LICENSE "License File"
-[license_img]: https://img.shields.io/github/license/maciejjakub/zfp_rust "License Image"
+[license_img]: https://img.shields.io/github/license/maciejjakub/zfp_rust?color=blue "License Image"
 [travis]: https://travis-ci.com/maciejjakub/zfp_rust "Travis CI"
 [travis_img]: https://img.shields.io/travis/com/maciejjakub/zfp_rust/master?logo=travis "Travis CI Display"
