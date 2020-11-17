@@ -19,7 +19,7 @@ fn main() {
     println!("Wynik: {:#b}", a);
     println!("Wynik: {:?}", b);
 
-    let x: i16 = 2137;
+    let x: i16 = 0xaa;
     let y: i16 = 45;
 
     let a = zfp_rust::negbin_convert::Int2Uint::int2uint(x);
@@ -37,4 +37,7 @@ fn main() {
     println!("{:?}", output);
     // let arrr = [3, 3, 3, 3];
     // zfp_rust::codec1::cache_align(arrr);
+    let my_char = 0xaa;
+    zfp_rust::serialize::bit_test(my_char);
+    
 }

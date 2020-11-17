@@ -91,4 +91,3 @@ mod tests {
         assert!(output_should_be.iter().zip(output.iter()).all(|(a, b)| a == b));
     }
 }
-

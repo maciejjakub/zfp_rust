@@ -77,10 +77,8 @@ mod tests {
     }
     #[test]
     fn i8_test() {
-        let input: i8 = 80;
+        let input: i8 = 120;
         let output = super::Uint2Int::uint2int(super::Int2Uint::int2uint(input));
         assert_eq!(input, output);
     }
-
-
 }
