@@ -40,7 +40,18 @@ fn main() {
     // zfp_rust::codec1::cache_align(arrr);
     let my_char = 0xaa;
     zfp_rust::serialize::bit_test(my_char);
-
+    let my_str = "110101101";
+    let my_number = usize::from_str_radix(my_str, 2);
     let arr = BitSlice::<Msb0, _>::from_element(&my_char);
+    let smth = std::mem::size_of::<i16>();
     println!("{:?}", arr);
+    println!("{:?}", arr[0]);
+    println!("{:?}", my_number);
+    println!("{:?}", smth * 8);
+
+    zfp_rust::serialize::execute_in_main();
+
+    let smth2 = std::mem::size_of_val(&x);
+    println!("{:?}", smth2 * 8);
+    zfp_rust::serialize::bit_transpose_vector();
 }

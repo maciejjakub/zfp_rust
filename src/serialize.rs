@@ -1,3 +1,5 @@
+use bitvec::prelude::*;
+
 pub fn bit_test(mut my_char: u8) -> () {
 	let mut what_bit_am_i_testing = 0;
 	while what_bit_am_i_testing < 8 {
@@ -30,4 +32,28 @@ pub fn test() {
     my_char = my_char >> 1;
     println!("{:#08b}", 0b01);
     
+}
+
+pub fn print_type_of<T>(_: &T) {
+    println!("{}", std::any::type_name::<T>())
+}
+
+pub fn execute_in_main() -> () {
+	let my_char: u8 = 0xaa;
+	print_type_of(&my_char);
+}
+
+pub fn bit_transpose_vector() -> () {
+	let my_arr: [u8; 4] = [0xaa, 0xbb, 0xcc, 0xdd];
+	let array_length = my_arr.len();
+	let array_element_size = std::mem::size_of_val(&my_arr[0]) * 8;
+	let bit_slice_first_el_of_array = BitSlice::<Msb0, _>::from_element(&my_arr[0]);
+	for x in 0..array_element_size {
+		for y in 0..array_length {
+			let bit_slice = BitSlice::<Msb0, _>::from_element(&my_arr[y])[x];
+			println!("{:?}", bit_slice);
+			// println!("{:?}", bit_slice_first_el_of_array[x]);
+		}
+	}
+	println!("{:?}", my_arr.len());
 }
