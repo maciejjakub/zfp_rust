@@ -1,4 +1,5 @@
 use zfp_rust;
+use bitvec::prelude::*;
 
 fn main() {
     // let mut v: [i32; 16] = [67, 56, 43, 21, 67, 56, 43, 21, 67, 56, 43, 21, 67, 56, 43, 21];
@@ -39,5 +40,7 @@ fn main() {
     // zfp_rust::codec1::cache_align(arrr);
     let my_char = 0xaa;
     zfp_rust::serialize::bit_test(my_char);
-    
+
+    let arr = BitSlice::<Msb0, _>::from_element(&my_char);
+    println!("{:?}", arr);
 }
