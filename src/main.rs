@@ -54,4 +54,5 @@ fn main() {
     let smth2 = std::mem::size_of_val(&x);
     println!("{:?}", smth2 * 8);
     zfp_rust::serialize::bit_transpose_vector();
+    zfp_rust::serialize::bitvec_test();
 }
