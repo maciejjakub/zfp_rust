@@ -47,29 +47,28 @@ pub fn bit_transpose_vector() -> () {
     let my_arr: [u8; 4] = [0xaa, 0xbb, 0xcc, 0xdd];
     let array_length = my_arr.len();
     let array_element_size = std::mem::size_of_val(&my_arr[0]) * 8;
-    let bit_slice_first_el_of_array = BitSlice::<Msb0, _>::from_element(&my_arr[0]);
     let mut i = 0;
-    let mut bits_serialized = bitvec![Msb0, u8; 0; 32];
+    let mut bits_serialized = bitvec![Msb0, u8; 0; array_element_size * 4];
     for x in 0..array_element_size {
         for y in 0..array_length {
             let bit_slice = BitSlice::<Msb0, _>::from_element(&my_arr[y])[x];
-            println!("{:?}", bit_slice);
-            // bits_serialized[i] = bit_slice;
-            i += i;
-            // println!("{:?}", bit_slice_first_el_of_array[x]);
+            bits_serialized.set(i, bit_slice);
+            i = i + 1;
         }
     }
-    println!("{:?}", my_arr.len());
     println!("{:?}", bits_serialized);
-    println!("{:?}", bits_serialized[4]);
-    // bits_serialized[4] = true;
 }
 
 pub fn bitvec_test() -> () {
     let mut data = 0u8;
     println!("{:?}", data);
-    let bits = data.view_bits_mut::<Msb0>();
+    let mut bits = data.view_bits_mut::<Msb0>();
     println!("{:?}", bits);
-    bits.for_each(|idx, _bit| idx % 3 == 0);
+    bits.for_each(|idx, _bit| idx % 1 == 0);
     // assert_eq!(data, 0b100_100_10);
+    println!("{:b}", bits);
+    let mut bits = data.view_bits_mut::<Msb0>();
+    println!("{:?}", bits[3]);
+    bits.set(3, false);
+    println!("{:?}", bits);
 }
