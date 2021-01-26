@@ -1,4 +1,17 @@
 use bitvec::prelude::*;
+use std::ops::{Add, Shr, Sub};
+
+pub trait SerializeTrait:
+    From<u8> + bitvec::store::BitStore + bitvec::index::BitRegister
+{
+}
+impl<
+        T: From<u8>
+            + bitvec::store::BitStore
+            + bitvec::index::BitRegister,
+    > SerializeTrait for T
+{
+}
 
 pub fn bit_test(mut my_char: u8) -> () {
     let mut what_bit_am_i_testing = 0;
@@ -43,22 +56,6 @@ pub fn execute_in_main() -> () {
     print_type_of(&my_char);
 }
 
-pub fn bit_transpose_vector() -> () {
-    let my_arr: [u8; 4] = [0xaa, 0xbb, 0xcc, 0xdd];
-    let array_length = my_arr.len();
-    let array_element_size = std::mem::size_of_val(&my_arr[0]) * 8;
-    let mut i = 0;
-    let mut bits_serialized = bitvec![Msb0, u8; 0; array_element_size * 4];
-    for x in 0..array_element_size {
-        for y in 0..array_length {
-            let bit_slice = BitSlice::<Msb0, _>::from_element(&my_arr[y])[x];
-            bits_serialized.set(i, bit_slice);
-            i = i + 1;
-        }
-    }
-    println!("{:?}", bits_serialized);
-}
-
 pub fn bitvec_test() -> () {
     let mut data = 0u8;
     println!("{:?}", data);
@@ -71,4 +68,19 @@ pub fn bitvec_test() -> () {
     println!("{:?}", bits[3]);
     bits.set(3, false);
     println!("{:?}", bits);
+}
+
+pub fn bit_transpose_vector<I: SerializeTrait>(arr: &[I]) -> () {
+    let array_length = arr.len();
+    let array_element_size = std::mem::size_of_val(&arr[0]) * 8;
+    let mut i = 0;
+    let mut bits_serialized = bitvec![Msb0, u8; 0; array_element_size * array_length];
+    for x in 0..array_element_size {
+        for y in 0..array_length {
+            let bit_slice = BitSlice::<Msb0, _>::from_element(&arr[y])[x];
+            bits_serialized.set(i, bit_slice);
+            i = i + 1;
+        }
+    }
+    println!("{:?}", bits_serialized);
 }
