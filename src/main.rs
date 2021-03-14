@@ -1,4 +1,5 @@
 use zfp_rust;
+use netcdf;
 use bitvec::prelude::*;
 
 fn main() {
@@ -42,10 +43,10 @@ fn main() {
     zfp_rust::serialize::bit_test(my_char);
     let my_str = "110101101";
     let my_number = usize::from_str_radix(my_str, 2);
-    let arr = BitSlice::<Msb0, _>::from_element(&my_char);
+    // let arr = BitSlice::<Msb0, _>::from_element(&my_char);
     let smth = std::mem::size_of::<i16>();
-    println!("{:?}", arr);
-    println!("{:?}", arr[0]);
+    // println!("{:?}", arr);
+    // println!("{:?}", arr[0]);
     println!("{:?}", my_number);
     println!("{:?}", smth * 8);
 
@@ -54,7 +55,13 @@ fn main() {
     let smth2 = std::mem::size_of_val(&x);
     println!("{:?}", smth2 * 8);
 
-    let my_arr: [u8; 4] = [0xaa, 0xbb, 0xcc, 0xdd];
+    // let arr: [u8; 4] = [0xaa, 0xbb, 0xcc, 0xdd];
+    let arr: [u8; 4] = [112, 29, 123, 144];
 
-    zfp_rust::serialize::bit_transpose_vector(&my_arr);
+    println!("{:?}", arr);
+    zfp_rust::serialize::bit_transpose_vector(&arr);
+    zfp_rust::compressor::compress1();
+
+    let file = netcdf::open("../data/wrfout_d02_2015-12-09_07_00_00");
+    let var = &file.variable("data").expect("Could not find variable 'data'");
 }

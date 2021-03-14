@@ -1,5 +1,6 @@
 use bitvec::prelude::*;
 use std::ops::{Add, Shr, Sub};
+// use netcdf;
 
 pub trait SerializeTrait:
     From<u8> + bitvec::store::BitStore + bitvec::index::BitRegister
@@ -83,4 +84,15 @@ pub fn bit_transpose_vector<I: SerializeTrait>(arr: &[I]) -> () {
         }
     }
     println!("{:?}", bits_serialized);
+    // bits_serialized
 }
+
+// #[cfg(test)]
+// mod tests {
+//     #[test]
+//     fn i8_test() {
+//         let input: [u8; 4] = [0xaa, 0xbb, 0xcc, 0xdd];
+//         let output = super::bit_transpose_vector(&input);
+//         assert_eq!(input, output);
+//     }
+// }
