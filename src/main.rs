@@ -59,9 +59,18 @@ fn main() {
     let arr: [u8; 4] = [112, 29, 123, 144];
 
     println!("{:?}", arr);
-    zfp_rust::serialize::bit_transpose_vector(&arr);
-    zfp_rust::compressor::compress1();
+    // zfp_rust::serialize::bit_transpose_vector(&arr);
+    // zfp_rust::compressor::compress1();
 
-    let file = netcdf::open("../data/wrfout_d02_2015-12-09_07_00_00");
-    let var = &file.variable("data").expect("Could not find variable 'data'");
+    let float_list: [f32; 4] = [-6567.3616, 7954.2431, 99998921.6512, 7631.7362];
+
+    // for i in 0..4 {
+    //     zfp_rust::float2int::test2(float_list[i]);
+    // }
+    
+    let mnts_arr = zfp_rust::float2int::float2int1(float_list);
+    println!("{:?}", mnts_arr);
+
+    // let file = netcdf::open("../data/wrfout_d02_2015-12-09_07_00_00");
+    // let var = &file.variable("data").expect("Could not find variable 'data'");
 }

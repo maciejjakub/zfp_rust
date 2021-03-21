@@ -1,6 +1,6 @@
 
 pub fn compress1() {
-    let mut v: [i8; 4] = [67, 56, 43, 30];
+    let mut v: [i8; 4] = [64, 56, 43, 20];
     println!("Array before transformation: {:?}", v);
     super::encode::encode_cube1(&mut v);
     println!("Array after forward lifting transform: {:?}", v);

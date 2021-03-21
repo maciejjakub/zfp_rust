@@ -5,3 +5,4 @@ pub mod inv_order;
 pub mod negbin_convert;
 pub mod serialize;
 pub mod compressor;
+pub mod float2int;
