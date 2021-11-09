@@ -5,3 +5,7 @@
 **/*.rs.bk
 Cargo.lock
 /data/
+
+*.pdf
+*.log
+*.aux
