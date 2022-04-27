@@ -9,5 +9,5 @@ repository = "https://github.com/maciejjakub/zfp_rust.git"
 
 [dependencies]
 bitvec = "0.19.6"
-netcdf = "0.4.2"
+#netcdf = "0.4.2"
 num-traits = "0.2.14"

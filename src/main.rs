@@ -1,5 +1,5 @@
 use zfp_rust;
-use netcdf;
+// use netcdf;
 use bitvec::prelude::*;
 
 fn main() {
